@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEET Courses - Live and Pre-loaded</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --secondary: #000000;
+            --accent: #FF6B6B;
+            --text: #333;
+            --bg: #F8F9FA;
+            --white: #ffffff;
+            --gradient: linear-gradient(135deg, #43cea2, #185a9d);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        h1,
+        h2 {
+            margin-bottom: 30px;
+            color: var(--primary);
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .language-selector {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 40px;
+            background: var(--gradient);
+            padding: 10px 20px;
+            border-radius: 50px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .language-selector label {
+            margin-right: 10px;
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        #language {
+            padding: 8px 12px;
+            border-radius: 50px;
+            border: none;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            background-color: var(--white);
+        }
+
+        #language:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.3);
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+            justify-items: center;
+        }
+
+        .course-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            max-width: 300px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            z-index: 0;
+            opacity: 0.1;
+            transition: opacity 0.3s ease;
+        }
+
+        .course-card:hover::before {
+            opacity: 0.3;
+        }
+
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .course-card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            z-index: 1;
+            position: relative;
+        }
+
+        .course-card p {
+            flex-grow: 1;
+            margin-bottom: 20px;
+            z-index: 1;
+            position: relative;
+        }
+
+        .course-card button {
+            align-self: flex-start;
+            padding: 10px 20px;
+            background-color: var(--accent);
+            color: var(--white);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            z-index: 1;
+            position: relative;
+        }
+
+        .course-card button:hover {
+            background-color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .course-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation for card appearance */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .course-card {
+            animation: fadeIn 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .course-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .course-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .course-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        /* Smooth transition for page loading */
+        body {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        body.loaded {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>NEET Preparation Courses</h1>
+
+        <div class="language-selector">
+            <label for="language">Select your preferred language:</label>
+            <select id="language">
+                <option value="en">English</option>
+                <option value="hi">Hindi</option>
+                <option value="pa">Punjabi</option>
+                <option value="as">Assamese</option>
+                <option value="bn">Bengali</option>
+                <option value="or">Odia</option>
+                <option value="gu">Gujarati</option>
+                <option value="mr">Marathi</option>
+                <option value="te">Telugu</option>
+                <option value="ml">Malayalam</option>
+                <option value="kn">Kannada</option>
+                <option value="ta">Tamil</option>
+                <option value="ur">Urdu</option>
+            </select>
+        </div>
+
+        <h2>Live Courses</h2>
+        <div class="course-grid" id="live-courses">
+            <!-- Live courses will be dynamically added here -->
+        </div>
+
+        <h2>Pre-loaded Courses</h2>
+        <div class="course-grid" id="preloaded-courses">
+            <!-- Pre-loaded courses will be dynamically added here -->
+        </div>
+    </div>
+
+    <script>
+        // Sample course data (in practice, this would come from a backend)
+        const courses = {
+            live: [
+                { title: "Live Physics Masterclass", description: "Interactive sessions on advanced physics concepts" },
+                { title: "Live Chemistry Lab", description: "Virtual chemistry experiments and problem-solving" },
+                { title: "Live Biology Deep Dive", description: "In-depth exploration of complex biological systems" }
+            ],
+            preloaded: [
+                { title: "NEET Physics Fundamentals", description: "Comprehensive coverage of NEET physics syllabus" },
+                { title: "Chemistry Formula Mastery", description: "Master all important chemical formulas and reactions" },
+                { title: "Biology Concept Videos", description: "Visual explanations of key biological concepts" }
+            ]
+        };
+
+        function displayCourses() {
+            const language = document.getElementById('language').value;
+            const liveCourseContainer = document.getElementById('live-courses');
+            const preloadedCourseContainer = document.getElementById('preloaded-courses');
+
+            liveCourseContainer.innerHTML = '';
+            preloadedCourseContainer.innerHTML = '';
+
+            courses.live.forEach(course => {
+                liveCourseContainer.innerHTML += `
+                    <div class="course-card">
+                        <h3>${course.title}</h3>
+                        <p>${course.description}</p>
+                        <button>Join Live Course</button>
+                    </div>
+                `;
+            });
+
+            courses.preloaded.forEach(course => {
+                preloadedCourseContainer.innerHTML += `
+                    <div class="course-card">
+                        <h3>${course.title}</h3>
+                        <p>${course.description}</p>
+                        <button>Start Learning</button>
+                    </div>
+                `;
+            });
+        }
+
+        // Initial display
+        displayCourses();
+
+        // Update courses when language changes
+        document.getElementById('language').addEventListener('change', displayCourses);
+
+        // Smooth transition for page load
+        window.addEventListener('load', () => {
+            document.body.classList.add('loaded');
+        });
+    </script>
+</body>
+
+</html>

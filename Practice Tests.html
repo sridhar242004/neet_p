@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take Test</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #37b855;
+            --secondary-color: #ff4d4d;
+            --background-color: #f4f4f9;
+            --text-color: #333;
+            --container-bg-color: #fff;
+            --container-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
+            --font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: var(--primary-color);
+            padding: 10px 20px;
+            color: #fff;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar a, .navbar button {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 18px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-family);
+        }
+
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: var(--container-bg-color);
+            box-shadow: var(--container-shadow);
+            border-radius: var(--border-radius);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .timer {
+            font-size: 24px;
+            color: var(--secondary-color);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .question p {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .question label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .question input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .explanation {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .explain-button {
+            margin-top: 10px;
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #218838;
+            transform: translateY(-3px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: var(--text-color);
+            text-align: center;
+        }
+
+        .low-score {
+            color: var(--secondary-color);
+        }
+
+        .good-score {
+            color: var(--primary-color);
+        }
+
+        footer {
+            background-color: var(--primary-color);
+            color: #fff;
+            text-align: center;
+            padding: 10px 20px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .topics {
+            display: none;
+            margin-left: 20px;
+            font-size: 14px;
+            overflow: hidden;
+            transition: max-height 0.9s ease-out, padding 0.9s ease-out;
+        }
+
+        .concepts-container ul li.active .topics {
+            display: block;
+            max-height: 1000px; /* A large enough value to accommodate the content */
+            padding: 10px 0;
+        }
+
+        .concepts-container ul li .topics.collapsed {
+            max-height: 0;
+            padding: 0;
+        }
+
+        .concepts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100%;
+            background-color: var(--container-bg-color);
+            box-shadow: var(--container-shadow);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            display: none; 
+        }
+
+        .concepts-container h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .concepts-container ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .concepts-container ul li {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .concepts-container ul li.active .topics {
+            display: block;
+            max-height: none; /* Allow the container to expand fully without limiting height */
+            padding: 10px 0;
+       }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">NEET AspirantHub</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="plan.html">plans</a>
+            <button onclick="toggleConcepts()">Show Concepts</button> 
+        </div>
+    </div>
+    <div class="concepts-container" id="conceptsContainer">
+        <h2>NEET Concepts</h2>
+        <ul>
+            <li onclick="toggleTopics('physics')"><strong>Physics</strong>
+                <ul class="topics" id="physics-topics">
+                    <li class="Atoms and Nuclei"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>1.Atoms and Nuclei</li>
+                    <li class="2.Current Electricity"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>2.Current Electricity</li>
+                    <li class="Dual Nature of Matter and Radiation"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>3.Dual Nature of Matter and Radiation</li>
+                    <li class="Electromagnetic Waves"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>4.Electromagnetic Waves</li>
+                    <li class="Electronic Devices"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>5.Electronic Devices</li>
+                    <li class="Electrostatics"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>6.Electrostatics</li>
+                    <li class="Gravitation"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>7.Gravitation</li>
+                    <li class="Kinematics"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>8.Kinematics</li>
+                    <li class="Laws of Motion"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>9.Laws of Motion</li>
+                    <li class="Magnetic Effects of Current and Magnetism"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>10.Magnetic Effects of Current and Magnetism</li>
+                    <li class="Motion of System of Particles and Rigid Body"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>11.Motion of System of Particles and Rigid Body</li>
+                    <li class="Optics"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>12.Optics</li>
+                    <li class="Oscillations and Waves"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>13.Oscillations and Waves</li>
+                    <li class="Physical-world and measurement"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>14.Physical-world and measurement</li>
+                    <li class="Properties of Bulk Matter"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>15.Properties of Bulk Matter</li>
+                    <li class="Thermodynamics"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>16.Thermodynamics</li>
+                    <li class="Work,Energyand Power"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>17.Work,Energy and Power</li>
+                </ul>
+                </li>
+                <li onclick="toggleTopics('Chemistry')"><strong>Chemistry</strong>
+                    <ul class="topics" id="Chemistry-topics">
+                        <li class="Chemical Kinetics"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>1. Chemical Kinetics</li>
+                        <li class="Chemistry in Everyday Life"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>2. Chemistry in Everyday Life</li>
+                        <li class="Classification of Elements and Periodicity in Properties"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>3. Classification of Elements and Periodicity in Properties</li>
+                        <li class="Coordination Compounds"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>4. Coordination Compounds</li>
+                        <li class="Electrochemistry"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>5. Electrochemistry</li>
+                        <li class="Environmental Chemistry"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>6. Environmental Chemistry</li>
+                        <li class="Equilibrium"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>7. Equilibrium</li>
+                        <li class="General Principles and Processes of Isolation of Elements"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>8. General Principles and Processes of Isolation of Elements</li>
+                        <li class="Haloalkanes and Haloarenes"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>9. Haloalkanes and Haloarenes</li>
+                        <li class="Hydrocarbons"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>10. Hydrocarbons</li>
+                        <li class="Hydrogen"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>11. Hydrogen</li>
+                        <li class="Organic Chemistry: Some Basic Principles and Techniques"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>12. Organic Chemistry: Some Basic Principles and Techniques</li>
+                        <li class="Organic Compounds Containing Nitrogen"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>13. Organic Compounds Containing Nitrogen</li>
+                        <li class="Polymers"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>14. Polymers</li>
+                        <li class="Redox Reactions"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>15. Redox Reactions</li>
+                        <li class="Solid State"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>16. Solid State</li>
+                        <li class="Solutions"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>17. Solutions</li>
+                        <li class="Some Basic Concepts of Chemistry"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>18. Some Basic Concepts of Chemistry</li>
+                        <li class="Some p-Block Elements"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>19. Some p-Block Elements</li>
+                        <li class="States of Matter: Gases and Liquids"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>20. States of Matter: Gases and Liquids</li>
+                        <li class="Structure of Atom"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>21. Structure of Atom</li>
+                        <li class="Surface Chemistry"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>22. Surface Chemistry</li>
+                        <li class="Thermodynamics"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>23. Thermodynamics</li>
+                        <li class="d- and f-Block Elements"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>24. d- and f-Block Elements</li>
+                        <li class="p-Block Elements"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>25. p-Block Elements</li>
+                        <li class="s-Block Elements (Alkali and Alkaline)"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>26. s-Block Elements (Alkali and Alkaline)</li>
+                        
+                </ul>
+            </li>
+        </li>
+        <li onclick="toggleTopics('biology')"><strong>Biology</strong>
+            <ul class="topics" id="biology-topics">
+                <li onclick="toggleTopics('Botany')"><strong>botany</strong>
+                    <ul class="topics" id="botany-topics">
+                        <li class="Applications of Photosynthesis"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>1. Applications of Photosynthesis</li>
+                        <li class="Chloroplast Structure and Function"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>2. Chloroplast Structure and Function</li>
+                        <li class="Dark Reactions"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>3. Dark Reactions</li>
+                        <li class="Factors Affecting Photosynthesis"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>4. Factors Affecting Photosynthesis</li>
+                        <li class="Light Reactions"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>5. Light Reactions</li>
+                        <li class="Photorespiration"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>6. Photorespiration</li>
+                        <li class="Photosynthesis Process"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>7. Photosynthesis Process</li>
+                        <li class="Photosynthesis and Plant Growth"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>8. Photosynthesis and Plant Growth</li>
+                        <li class="Photosynthetic Pathways"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>9. Photosynthetic Pathways</li>
+                        <li class="Role of Pigments"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>10. Role of Pigments</li>
+                        
+                    </ul>
+                </li>
+                <li onclick="toggleTopics('zoology')"><strong>Zoology</strong>
+                    <ul class="topics" id="zoology-topics">
+                        <li class="Animal Kingdom"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>1. Animal Kingdom</li>
+                        <li class="Biotechnology and its Applications"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>2. Biotechnology and its Applications</li>
+                        <li class="Circulatory System"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>3. Circulatory System</li>
+                        <li class="Digestive System"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>4. Digestive System</li>
+                        <li class="Endocrine System"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>5. Endocrine System</li>
+                        <li class="Evolution"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>6. Evolution</li>
+                        <li class="Excretory System"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>7. Excretory System</li>
+                        <li class="Genetics"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>8. Genetics</li>
+                        <li class="Human Health and Disease"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>9. Human Health and Disease</li>
+                        <li class="Nervous System"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>10. Nervous System</li>
+                        <li class="Reproductive System"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>11. Reproductive System</li>
+                        <li class="Respiratory System"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>12. Respiratory System</li>
+                        <li class="Structural Organization in Animals"><i class="fa-solid fa-pencil" style="color: #37b855;"></i>13. Structural Organization in Animals</li>
+
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    </div>
+    <div class="container">
+        <div class="timer">Time left: <span id="time">10:00</span></div>
+
+        <form id="test-form">
+            <div id="questions-container"></div>
+            <button type="submit">Submit</button>
+        </form>
+
+        <div id="result" class="result"></div>
+    </div>
+
+    <footer>
+        &copy; 2024 NEET AspirantHub. All rights reserved.
+    </footer>
+    <script>
+        const questions = [
+            //physics
+
+            { id: 'q1', subject: 'Physics', question: 'What is the force of gravity?', options: ['9.8 m/s²', '10 m/s²', '8.9 m/s²'], answer: '9.8 m/s²', explanation: 'The force of gravity on Earth is 9.8 m/s².' },
+            { id: 'q2', subject: 'Physics', question: 'What is Newton\'s second law of motion?', options: ['F=ma', 'E=mc²', 'P=IV'], answer: 'F=ma', explanation: 'Newton\'s second law states that force is equal to mass times acceleration (F=ma).' },
+            { id: 'q3', subject: 'Physics', question: 'What is the unit of force?', options: ['Newton', 'Joule', 'Watt'], answer: 'Newton', explanation: 'The unit of force in the International System of Units (SI) is the Newton (N).' },
+            { id: 'q4', subject: 'Physics', question: 'What is the speed of light?', options: ['3 x 10^8 m/s', '3 x 10^6 m/s', '3 x 10^10 m/s'], answer: '3 x 10^8 m/s', explanation: 'The speed of light in a vacuum is 3 x 10^8 meters per second.' },
+            { id: 'q5', subject: 'Physics', question: 'What is the law of conservation of energy?', options: ['Energy cannot be created or destroyed', 'Energy can be created', 'Energy is always lost'], answer: 'Energy cannot be created or destroyed', explanation: 'The law of conservation of energy states that energy cannot be created or destroyed, only transformed from one form to another.' },
+            { id: 'q6', subject: 'Physics', question: 'What is an atom?', options: ['Smallest unit of matter', 'Unit of energy', 'A type of force'], answer: 'Smallest unit of matter', explanation: 'An atom is the smallest unit of matter that retains the properties of an element.' },
+            { id: 'q7', subject: 'Physics', question: 'What is the principle of buoyancy?', options: ['Archimedes\' Principle', 'Bernoulli\'s Principle', 'Pascal\'s Principle'], answer: 'Archimedes\' Principle', explanation: 'Archimedes\' Principle states that a body immersed in a fluid experiences a buoyant force equal to the weight of the fluid displaced by the body.' },
+            { id: 'q8', subject: 'Physics', question: 'What is a wave?', options: ['Disturbance that travels through a medium', 'A type of particle', 'A static field'], answer: 'Disturbance that travels through a medium', explanation: 'A wave is a disturbance that travels through a medium, transferring energy from one point to another.' },
+            { id: 'q9', subject: 'Physics', question: 'What is the kinetic energy formula?', options: ['1/2 mv²', 'mv', 'mgh'], answer: '1/2 mv²', explanation: 'The formula for kinetic energy is 1/2 mv², where m is mass and v is velocity.' },
+            { id: 'q10', subject: 'Physics', question: 'What is the formula for gravitational force?', options: ['G(m1m2)/r²', 'mv', 'E=mc²'], answer: 'G(m1m2)/r²', explanation: 'The formula for gravitational force between two masses is G(m1m2)/r², where G is the gravitational constant.' },
+            // Chemistry
+            { id: 'q11', subject: 'Chemistry', question: 'What is the atomic number of Hydrogen?', options: ['1', '2', '3'], answer: '1', explanation: 'The atomic number of Hydrogen is 1, meaning it has one proton in its nucleus.' },
+            { id: 'q12', subject: 'Chemistry', question: 'What is the chemical formula for water?', options: ['H2O', 'CO2', 'O2'], answer: 'H2O', explanation: 'The chemical formula for water is H2O, consisting of two hydrogen atoms and one oxygen atom.' },
+            { id: 'q13', subject: 'Chemistry', question: 'What is the pH of pure water?', options: ['7', '6', '8'], answer: '7', explanation: 'The pH of pure water is 7, which is considered neutral.' },
+            { id: 'q14', subject: 'Chemistry', question: 'What is the periodic table?', options: ['A table of elements', 'A table of compounds', 'A table of mixtures'], answer: 'A table of elements', explanation: 'The periodic table is a tabular arrangement of the chemical elements, organized by their atomic number, electron configuration, and recurring chemical properties.' },
+            { id: 'q15', subject: 'Chemistry', question: 'What is the main gas found in the air we breathe?', options: ['Nitrogen', 'Oxygen', 'Carbon Dioxide'], answer: 'Nitrogen', explanation: 'The main gas found in the air we breathe is nitrogen, making up about 78% of the atmosphere.' },
+            { id: 'q16', subject: 'Chemistry', question: 'What is the chemical symbol for Sodium?', options: ['Na', 'S', 'N'], answer: 'Na', explanation: 'The chemical symbol for Sodium is Na, derived from the Latin name "Natrium".' },
+            { id: 'q17', subject: 'Chemistry', question: 'What is the process of water changing from liquid to gas?', options: ['Evaporation', 'Condensation', 'Sublimation'], answer: 'Evaporation', explanation: 'The process of water changing from liquid to gas is called evaporation.' },
+            { id: 'q18', subject: 'Chemistry', question: 'What is a covalent bond?', options: ['A bond where atoms share electrons', 'A bond where atoms transfer electrons', 'A bond where atoms lose electrons'], answer: 'A bond where atoms share electrons', explanation: 'A covalent bond is a type of chemical bond where atoms share pairs of electrons.' },
+            { id: 'q19', subject: 'Chemistry', question: 'What is the molar mass of CO2?', options: ['44 g/mol', '28 g/mol', '32 g/mol'], answer: '44 g/mol', explanation: 'The molar mass of CO2 (carbon dioxide) is 44 g/mol, calculated as 12 (carbon) + 16*2 (oxygen).' },
+            { id: 'q20', subject: 'Chemistry', question: 'What is the valency of Carbon?', options: ['4', '2', '1'], answer: '4', explanation: 'The valency of Carbon is 4, meaning it can form four covalent bonds with other atoms.' },
+            // Zoology
+            { id: 'q21', subject: 'Zoology', question: 'What is the study of animals called?', options: ['Zoology', 'Botany', 'Geology'], answer: 'Zoology', explanation: 'The study of animals is called Zoology.' },
+            { id: 'q22', subject: 'Zoology', question: 'What is the largest mammal?', options: ['Blue Whale', 'Elephant', 'Giraffe'], answer: 'Blue Whale', explanation: 'The Blue Whale is the largest mammal, and indeed the largest animal, known to exist.' },
+            { id: 'q23', subject: 'Zoology', question: 'What is the primary diet of a herbivore?', options: ['Plants', 'Meat', 'Both'], answer: 'Plants', explanation: 'Herbivores primarily eat plants.' },
+            { id: 'q24', subject: 'Zoology', question: 'What is metamorphosis?', options: ['A change in form during development', 'A type of reproduction', 'A feeding behavior'], answer: 'A change in form during development', explanation: 'Metamorphosis is a biological process involving a conspicuous and relatively abrupt change in the animal\'s body structure through cell growth and differentiation.' },
+            { id: 'q25', subject: 'Zoology', question: 'What is the main function of red blood cells?', options: ['Transport oxygen', 'Fight infection', 'Clot blood'], answer: 'Transport oxygen', explanation: 'The main function of red blood cells is to transport oxygen from the lungs to the body\'s tissues and to carry carbon dioxide back to the lungs.' },
+            { id: 'q26', subject: 'Zoology', question: 'What is the term for an animal that maintains a constant body temperature?', options: ['Homeotherm', 'Poikilotherm', 'Thermophile'], answer: 'Homeotherm', explanation: 'A homeotherm is an animal that maintains a constant body temperature regardless of environmental conditions.' },
+            { id: 'q27', subject: 'Zoology', question: 'What is the primary function of the respiratory system?', options: ['Exchange gases', 'Digest food', 'Transport nutrients'], answer: 'Exchange gases', explanation: 'The primary function of the respiratory system is to exchange gases, primarily oxygen and carbon dioxide, between the blood and the environment.' },
+            { id: 'q28', subject: 'Zoology', question: 'What is the main difference between invertebrates and vertebrates?', options: ['Presence of a backbone', 'Number of legs', 'Method of reproduction'], answer: 'Presence of a backbone', explanation: 'The main difference between invertebrates and vertebrates is the presence or absence of a backbone. Vertebrates have a backbone, while invertebrates do not.' },
+            { id: 'q29', subject: 'Zoology', question: 'What is the gestation period of an elephant?', options: ['22 months', '9 months', '12 months'], answer: '22 months', explanation: 'The gestation period of an elephant is about 22 months, making it the longest of any land animal.' },
+            { id: 'q30', subject: 'Zoology', question: 'What is the process by which birds replace their feathers?', options: ['Moulting', 'Shedding', 'Exfoliating'], answer: 'Moulting', explanation: 'Moulting is the process by which birds shed old feathers to make way for new growth.' },
+            // Botany
+            { id: 'q31', subject: 'Botany', question: 'What is photosynthesis?', options: ['Process by which plants make food', 'Process by which plants absorb water', 'Process by which plants respire'], answer: 'Process by which plants make food', explanation: 'Photosynthesis is the process by which plants make their own food using sunlight, carbon dioxide, and water.' },
+            { id: 'q32', subject: 'Botany', question: 'What is the main pigment used in photosynthesis?', options: ['Chlorophyll', 'Carotene', 'Xanthophyll'], answer: 'Chlorophyll', explanation: 'Chlorophyll is the main pigment used in photosynthesis, giving plants their green color.' },
+            { id: 'q33', subject: 'Botany', question: 'What is the primary function of roots?', options: ['Absorb water and nutrients', 'Produce flowers', 'Provide shade'], answer: 'Absorb water and nutrients', explanation: 'The primary function of roots is to absorb water and nutrients from the soil.' },
+            { id: 'q34', subject: 'Botany', question: 'What is the term for plants that live for more than two years?', options: ['Perennials', 'Annuals', 'Biennials'], answer: 'Perennials', explanation: 'Plants that live for more than two years are called perennials.' },
+            { id: 'q35', subject: 'Botany', question: 'What is the main reproductive organ of a flower?', options: ['Stamen', 'Petal', 'Leaf'], answer: 'Stamen', explanation: 'The main reproductive organ of a flower is the stamen, which produces pollen.' },
+            { id: 'q36', subject: 'Botany', question: 'What is the main function of leaves?', options: ['Photosynthesis', 'Water storage', 'Support'], answer: 'Photosynthesis', explanation: 'The main function of leaves is to carry out photosynthesis, the process by which plants make food.' },
+            { id: 'q37', subject: 'Botany', question: 'What is the term for the loss of water vapor from plant leaves?', options: ['Transpiration', 'Evaporation', 'Condensation'], answer: 'Transpiration', explanation: 'Transpiration is the process by which plants lose water vapor from their leaves.' },
+            { id: 'q38', subject: 'Botany', question: 'What is a fruit?', options: ['Ripened ovary of a flower', 'Root of a plant', 'Seed of a plant'], answer: 'Ripened ovary of a flower', explanation: 'A fruit is the ripened ovary of a flower, containing seeds.' },
+            { id: 'q39', subject: 'Botany', question: 'What is the main function of xylem?', options: ['Transport water', 'Transport food', 'Store energy'], answer: 'Transport water', explanation: 'The main function of xylem is to transport water and dissolved nutrients from the roots to the rest of the plant.' },
+            { id: 'q40', subject: 'Botany', question: 'What is the term for plants that complete their life cycle in one year?', options: ['Annuals', 'Perennials', 'Biennials'], answer: 'Annuals', explanation: 'Plants that complete their life cycle in one year are called annuals.' }
+        ];
+
+        let currentSet = 0;
+        const sets = [
+            { name: 'Physics', questions: questions.slice(0, 10) },
+            { name: 'Chemistry', questions: questions.slice(10, 20) },
+            { name: 'Zoology', questions: questions.slice(20, 30) },
+            { name: 'Botany', questions: questions.slice(30, 40) }
+        ];
+
+        const resultContainer = document.getElementById('result');
+        const questionsContainer = document.getElementById('questions-container');
+        const form = document.getElementById('test-form');
+
+        function displayQuestions() {
+            questionsContainer.innerHTML = '';
+            sets[currentSet].questions.forEach(q => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.id = q.id;
+                questionDiv.innerHTML = `
+                    <p>${q.question}</p>
+                    ${q.options.map((option, index) => `
+                        <label>
+                            <input type="radio" name="${q.id}" value="${option}">${option}
+                        </label>
+                    `).join('')}
+                    <div class="explanation">${q.explanation}</div>
+                    <button type="button" class="explain-button" onclick="toggleExplanation('${q.id}')">Explain</button>
+                `;
+                questionsContainer.appendChild(questionDiv);
+            });
+        }
+
+        function toggleExplanation(id) {
+            const explanation = document.querySelector(`#${id} .explanation`);
+            explanation.style.display = explanation.style.display === 'none' ? 'block' : 'none';
+        }
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            let score = 0;
+            const answers = new FormData(form);
+            sets[currentSet].questions.forEach(q => {
+                if (answers.get(q.id) === q.answer) {
+                    score++;
+                }
+            });
+
+            resultContainer.innerHTML = `You scored ${score} out of 10 in ${sets[currentSet].name}. ${score < 5 ? '<span class="low-score">Consider reviewing this subject.</span>' : '<span class="good-score">Well done!</span>'}`;
+
+            if (currentSet < sets.length - 1) {
+                currentSet++;
+                displayQuestions();
+            } else {
+                resultContainer.innerHTML += '<div class="recommendations"><a href="studyplan.html">Click here</a> to study more.</div>';
+                questionsContainer.style.display = 'none';
+            }
+        });
+
+        function startTimer(duration, display) {
+            let timer = duration, minutes, seconds;
+            setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    timer = duration;
+                }
+            }, 1000);
+        }
+
+        window.onload = function () {
+            questionsContainer.style.display = 'block';
+            displayQuestions();
+            const tenMinutes = 60 * 10, display = document.querySelector('#time');
+            startTimer(tenMinutes, display);
+        };
+
+        function toggleTopics(subject) {
+            const topicsList = document.getElementById(subject + '-topics');
+            const parentLi = topicsList.parentElement;
+
+            if (parentLi.classList.contains('active')) {
+                topicsList.classList.add('collapsed');
+                parentLi.classList.remove('active');
+            } else {
+                topicsList.classList.remove('collapsed');
+                parentLi.classList.add('active');
+            }
+        }
+
+        function toggleConcepts() {
+            const conceptsContainer = document.getElementById('conceptsContainer');
+            conceptsContainer.style.display = conceptsContainer.style.display === 'block' ? 'none' : 'block';
+        }
+    
+    </script>
+</body>
+</html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEET Aspirants Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --secondary: #45a049;
+            --text: #333;
+            --bg: #f0f4f0;
+            --white: #ffffff;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --shadow: rgba(0, 0, 0, 0.3);
+            --border-radius: 12px;
+            --transition: all 0.4s ease;
+            --scale: 1.05;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: var(--gradient);
+            color: var(--white);
+            padding: 2rem 0;
+            box-shadow: 0 6px 12px var(--shadow);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--white);
+            color: var(--primary);
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 6px 12px var(--shadow);
+            transition: transform var(--transition), box-shadow var(--transition);
+        }
+
+        .logo:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px var(--shadow);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            position: relative;
+            padding: 5px 0;
+            transition: color var(--transition);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--white);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform var(--transition);
+        }
+
+        nav ul li a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        #hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--white);
+            background: url('hero-background.jpg') no-repeat center center/cover;
+            background-attachment: fixed;
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        #hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            margin-bottom: 1rem;
+        }
+
+        #hero p {
+            font-size: 1.5rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        #hero .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: var(--primary);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+        }
+
+        #hero .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px var(--shadow);
+        }
+
+        main {
+            padding: 4rem 1rem;
+        }
+
+        .explore-section {
+            padding: 4rem 1rem;
+            background: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .explore-section h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            color: var(--primary);
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .explore-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 60%;
+            height: 4px;
+            background: var(--primary);
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .explore-section .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 12px 24px var(--shadow);
+            transition: transform var(--transition), box-shadow var(--transition);
+            padding: 1.5rem;
+            position: relative;
+            transform: scale(0.98);
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: scale(var(--scale));
+            box-shadow: 0 16px 32px var(--shadow);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary);
+            border-bottom-left-radius: var(--border-radius);
+            border-bottom-right-radius: var(--border-radius);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform var(--transition);
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.75rem;
+            transition: color var(--transition);
+        }
+
+        .card:hover h2 {
+            color: var(--secondary);
+        }
+
+        .card p {
+            color: var(--text);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--primary);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+        }
+
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px var(--shadow);
+        }
+
+        footer {
+            background: var(--text);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem 1rem;
+            position: relative;
+            overflow: hidden;
+            margin-top: 4rem;
+            box-shadow: 0 -6px 12px var(--shadow);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <a href="#" class="logo">NEET Aspirants Hub</a>
+        <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#explore">Explore</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    <section id="hero">
+        <div>
+            <h1>Welcome to NEET Aspirants Hub</h1>
+            <p>Your go-to place for NEET preparation resources, guidance, and community support.</p>
+            <a href="#explore" class="btn">Explore Now</a>
+        </div>
+    </section>
+</header>
+
+<main>
+    <section id="explore" class="explore-section">
+        <h2>Explore Our Resources</h2>
+        <div class="grid">
+            <div class="card">
+                <h2>Physics</h2>
+                <p>Interactive physics resources and study guides to help you master the subject.</p>
+                <a href="/Physics/physics.html" class="btn">Learn More</a>
+            </div>
+            <div class="card">
+                <h2>Chemistry</h2>
+                <p>Comprehensive chemistry tutorials and practice problems to boost your knowledge.</p>
+                <a href="/chemistry/chemistry.html" class="btn">Learn More</a>
+            </div>
+            <div class="card">
+                <h2>Biology</h2>
+                <p>Engaging biology lessons and quizzes to enhance your understanding of the subject.</p>
+                <a href="/Biology/biology.html" class="btn">Learn More</a>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <h2>Study Materials</h2>
+                <p>Access the best study materials and resources to excel in NEET.</p>
+                <a href="/Study Materials.html" class="btn">Learn More</a>
+            </div>
+            <div class="card">
+                <h2>Practice Tests</h2>
+                <p>Take practice tests to assess your preparation and improve.</p>
+                <a href="/Practice Tests.html" class="btn">Start Test</a>
+            </div>
+            <div class="card">
+                <h2>Expert Guidance</h2>
+                <p>Get expert advice and guidance to enhance your preparation.</p>
+                <a href="#" class="btn">Get Guidance</a>
+            </div>
+        </div>
+    </section>
+   </main>
+
+<footer>
+    <div class="footer-links">
+        <a href="#about">About Us</a>
+        <a href="#contact">Contact</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+    </div>
+    <p>&copy; 2024 NEET Aspirants Hub. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>
